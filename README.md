@@ -169,7 +169,7 @@ workspace remove-all
 ## Start workspace
 
 ```bash
-workspace 
+workspace go-server
 ```
 
 Automatically runs the `start` command.

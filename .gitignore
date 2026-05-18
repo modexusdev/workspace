@@ -1,0 +1,14 @@
+# binaries
+bin/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# env
+.env
+
+# logs
+*.log
+

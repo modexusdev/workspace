@@ -47,7 +47,10 @@ You can manage everything with a single command.
 
 # Installation
 
+Option 1 — Download Binary
+
 Download the latest binary from the [GitHub Releases](https://github.com/modexusdev/workspace/releases) page.
+
 
 After downloading:
 
@@ -55,6 +58,10 @@ After downloading:
 chmod +x workspace
 mv workspace ~/go/bin/
 ```
+
+Option 2 — Install with Go
+
+go install github.com/modexusdev/workspace/cmd/workspace@latest
 
 Make sure your Go `bin` directory is in your PATH:
 

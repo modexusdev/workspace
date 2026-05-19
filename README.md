@@ -1,7 +1,7 @@
 # WORKSPACE CLI
 
 ```text
-WORKSPACE CLI v1.0.0
+WORKSPACE CLI v1.0.2
 project manager & command runner
 ────────────────────────────────────
 ```
@@ -61,7 +61,9 @@ mv workspace ~/go/bin/
 
 Option 2 — Install with Go
 
+```bash
 go install github.com/modexusdev/workspace/cmd/workspace@latest
+```
 
 Make sure your Go `bin` directory is in your PATH:
 
@@ -116,6 +118,7 @@ Example configuration:
 
 # Commands
 
+
 ## Global Commands
 
 ### Show workspace overview
@@ -123,6 +126,11 @@ Example configuration:
 ```bash
 workspace
 ```
+
+Displays all saved workspaces in a compact overview.
+
+
+Useful for quickly seeing all registered projects.
 
 ---
 
@@ -132,10 +140,14 @@ workspace
 workspace ls
 ```
 
+Displays a detailed list of all saved workspaces.
+
 Shows:
 - workspace names
-- paths
-- commands
+- project paths
+- configured commands
+
+Useful when managing multiple projects.
 
 ---
 
@@ -143,6 +155,27 @@ Shows:
 
 ```bash
 workspace add
+```
+
+Creates a new workspace entry interactively.
+
+You will be asked for:
+- workspace name
+- project path
+- default start command
+
+Example:
+
+```text
+Workspace name: go-server
+Workspace path: /home/modexus/dev/go-server
+Start command: code .
+```
+
+The start command is executed when running:
+
+```bash
+workspace go-server
 ```
 
 ---
@@ -153,6 +186,14 @@ workspace add
 workspace version
 ```
 
+Displays the installed workspace CLI version.
+
+Example:
+
+```text
+workspace v1.0.0
+```
+
 ---
 
 ### Show all commands
@@ -161,6 +202,10 @@ workspace version
 workspace commands
 ```
 
+Displays all available global and workspace commands.
+
+Useful as a quick built-in help menu.
+
 ---
 
 ### Remove all saved workspace entries
@@ -168,6 +213,10 @@ workspace commands
 ```bash
 workspace remove-all
 ```
+
+Removes all saved workspaces from the config file.
+
+Useful for resetting the entire workspace configuration.
 
 ---
 
@@ -179,12 +228,56 @@ workspace remove-all
 workspace go-server
 ```
 
-Automatically runs the `start` command.
+Runs the default `start` command of the workspace.
 
 Equivalent to:
 
 ```bash
 workspace go-server start
+```
+
+Example start commands:
+- `code .`
+- `npm run dev`
+- `docker compose up`
+- `go run .`
+
+The command is automatically executed inside the saved workspace path.
+
+---
+
+## Run start command explicitly
+
+```bash
+workspace go-server start
+```
+
+Explicitly runs the configured `start` command.
+
+Useful for scripting or clarity.
+
+---
+
+## Jump into workspace shell
+
+```bash
+workspace go-server jump
+```
+
+Opens a new shell directly inside the workspace directory.
+
+Example:
+
+```text
+~/dev/go-server $
+```
+
+This allows working directly inside the project without manually changing directories.
+
+Exit the shell with:
+
+```bash
+exit
 ```
 
 ---
@@ -195,11 +288,15 @@ workspace go-server start
 workspace go-server ls
 ```
 
+Displays detailed information about the workspace.
+
 Shows:
 - workspace name
-- path
+- saved path
 - start command
-- custom commands
+- all custom commands
+
+Useful for inspecting workspace configuration.
 
 ---
 
@@ -209,7 +306,9 @@ Shows:
 workspace go-server remove
 ```
 
-Removes the saved workspace entry from the config file.
+Removes the workspace entry from the config file.
+
+This does NOT delete the actual project folder.
 
 ---
 
@@ -217,6 +316,16 @@ Removes the saved workspace entry from the config file.
 
 ```bash
 workspace go-server set-path
+```
+
+Updates the saved project path of the workspace.
+
+Useful when projects are moved to another location.
+
+Example:
+
+```text
+New path: /home/modexus/projects/go-server
 ```
 
 ---
@@ -227,6 +336,8 @@ workspace go-server set-path
 workspace go-server add-command
 ```
 
+Adds a custom command to the workspace.
+
 Example:
 
 ```text
@@ -234,12 +345,44 @@ Command name: docker
 Command: docker compose up
 ```
 
+Run later with:
+
+```bash
+workspace go-server docker
+```
+
+Useful for:
+- docker
+- logs
+- tests
+- builds
+- editors
+- scripts
+
 ---
 
 ## Edit custom command
 
 ```bash
 workspace go-server edit-command
+```
+
+Edits an existing workspace command.
+
+Useful when changing:
+- docker commands
+- dev scripts
+- editor commands
+- build processes
+
+Example:
+
+```text
+Old command:
+docker compose up
+
+New command:
+docker compose up --build
 ```
 
 ---
@@ -250,6 +393,10 @@ workspace go-server edit-command
 workspace go-server remove-command
 ```
 
+Removes a custom command from the workspace.
+
+The workspace itself remains unchanged.
+
 ---
 
 ## Run custom commands
@@ -258,11 +405,23 @@ workspace go-server remove-command
 workspace go-server docker
 ```
 
-Runs:
+Runs the saved custom command inside the workspace directory.
+
+Example:
 
 ```bash
 docker compose up
 ```
+
+Useful for quickly starting:
+- development servers
+- Docker environments
+- build commands
+- scripts
+- editors
+- logs
+
+without manually navigating into the project directory.
 
 inside the workspace directory.
 

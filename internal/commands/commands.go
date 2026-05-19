@@ -22,6 +22,7 @@ func ShowCommands() {
 
 	fmt.Printf(" %sworkspace <name>%s                    run default start command\n", console.Gold, console.Reset)
 	fmt.Printf(" %sworkspace <name> start%s              run start command explicitly\n", console.Gold, console.Reset)
+	fmt.Printf(" %sworkspace <name> jump%s               open shell in workspace path\n", console.Gold, console.Reset)
 	fmt.Printf(" %sworkspace <name> ls%s                 show workspace details\n", console.Gold, console.Reset)
 	fmt.Printf(" %sworkspace <name> add-command%s        add custom command\n", console.Gold, console.Reset)
 	fmt.Printf(" %sworkspace <name> edit-command%s       edit existing command\n", console.Gold, console.Reset)

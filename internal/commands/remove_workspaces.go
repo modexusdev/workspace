@@ -1,9 +1,6 @@
 package commands
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/modexusdev/workspace/internal/config"
@@ -76,28 +73,4 @@ func RemoveAllWorkspaces() {
 	}
 
 	console.PrintSuccess("All workspaces removed successfully.")
-}
-
-func confirmRemoveAll() bool {
-
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Printf(
-		"%sAre you sure you want to remove all saved workspaces?%s %s(y/N):%s ",
-		console.Gold,
-		console.Reset,
-		console.Gray,
-		console.Reset,
-	)
-
-	answer, err := reader.ReadString('\n')
-	if err != nil {
-		console.PrintError("Error reading confirmation.")
-		return false
-	}
-
-	answer = strings.TrimSpace(answer)
-	answer = strings.ToLower(answer)
-
-	return answer == "y" || answer == "yes"
 }

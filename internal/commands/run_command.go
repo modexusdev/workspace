@@ -49,16 +49,3 @@ func RunWorkspaceCommand(workspaceName string, commandName string) {
 
 	console.PrintError("Workspace not found.")
 }
-
-func findWorkspaceCommand(commands map[string]string, commandName string) (string, bool) {
-
-	// Find command case-insensitive
-	for existingName, command := range commands {
-
-		if strings.EqualFold(existingName, commandName) {
-			return command, true
-		}
-	}
-
-	return "", false
-}

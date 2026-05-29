@@ -253,3 +253,25 @@ func workspacePathExistsExcept(
 
 	return false
 }
+
+func findWorkspaceIndex(workspaces []models.Workspace, workspaceName string) int {
+	for i, workspace := range workspaces {
+		if strings.EqualFold(workspace.Name, workspaceName) {
+			return i
+		}
+	}
+
+	return -1
+}
+func findWorkspace(
+	workspaces []models.Workspace,
+	workspaceName string,
+) (*models.Workspace, bool) {
+	for i := range workspaces {
+		if strings.EqualFold(workspaces[i].Name, workspaceName) {
+			return &workspaces[i], true
+		}
+	}
+
+	return nil, false
+}

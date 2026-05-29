@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
@@ -17,19 +16,8 @@ func AddWorkspaceCommand(workspaceName string) {
 		return
 	}
 
-	index := -1
+	index := findWorkspaceIndex(configData.Workspaces, workspaceName)
 	// Find target workspace
-	for i, workspace := range configData.Workspaces {
-		if strings.EqualFold(workspace.Name, workspaceName) {
-			index = i
-			break
-		}
-	}
-
-	if index == -1 {
-		console.PrintError("Workspace not found.")
-		return
-	}
 
 	reader := bufio.NewReader(os.Stdin)
 

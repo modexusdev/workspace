@@ -3,7 +3,6 @@ package commands
 import (
 	"fmt"
 	"sort"
-	"strings"
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
@@ -76,82 +75,74 @@ func WorkspaceLs() {
 }
 
 func WorkspaceDetails(workspaceName string) {
-
 	configData, err := config.LoadConfig()
 	if err != nil {
 		console.PrintError("Error loading config.")
 		return
 	}
-	// Find workspace by name
-	for _, workspace := range configData.Workspaces {
 
-		if !strings.EqualFold(workspace.Name, workspaceName) {
-			continue
-		}
+	workspace, found := findWorkspace(
+		configData.Workspaces,
+		workspaceName,
+	)
 
-		fmt.Println()
-
-		fmt.Printf(
-			"%sWorkspace:%s %s%s%s\n\n",
-			console.Gold,
-			console.Reset,
-
-			console.Violet,
-			workspace.Name,
-			console.Reset,
-		)
-
-		fmt.Printf(
-			"%sPath:%s %s%s%s\n\n",
-			console.Gold,
-			console.Reset,
-
-			console.Gray,
-			workspace.Path,
-			console.Reset,
-		)
-
-		if len(workspace.Commands) == 0 {
-
-			fmt.Printf(
-				"%sNo commands found.%s\n\n",
-				console.Gray,
-				console.Reset,
-			)
-
-			return
-		}
-
-		fmt.Printf(
-			"%sCommands:%s\n\n",
-			console.Gold,
-			console.Reset,
-		)
-
-		commandNames := make([]string, 0, len(workspace.Commands))
-		// Sort command names for stable output
-		for name := range workspace.Commands {
-			commandNames = append(commandNames, name)
-		}
-
-		sort.Strings(commandNames)
-
-		for _, name := range commandNames {
-
-			fmt.Printf(
-				" - %s%s%s: %s\n",
-				console.Gold,
-				name,
-				console.Reset,
-
-				workspace.Commands[name],
-			)
-		}
-
-		fmt.Println()
-
+	if !found {
+		console.PrintError("Workspace not found.")
 		return
 	}
 
-	console.PrintError("Workspace not found.")
+	fmt.Println()
+
+	fmt.Printf(
+		"%sWorkspace:%s %s%s%s\n\n",
+		console.Gold,
+		console.Reset,
+		console.Violet,
+		workspace.Name,
+		console.Reset,
+	)
+
+	fmt.Printf(
+		"%sPath:%s %s%s%s\n\n",
+		console.Gold,
+		console.Reset,
+		console.Gray,
+		workspace.Path,
+		console.Reset,
+	)
+
+	if len(workspace.Commands) == 0 {
+		fmt.Printf(
+			"%sNo commands found.%s\n\n",
+			console.Gray,
+			console.Reset,
+		)
+		return
+	}
+
+	fmt.Printf(
+		"%sCommands:%s\n\n",
+		console.Gold,
+		console.Reset,
+	)
+
+	commandNames := make([]string, 0, len(workspace.Commands))
+
+	for name := range workspace.Commands {
+		commandNames = append(commandNames, name)
+	}
+
+	sort.Strings(commandNames)
+
+	for _, name := range commandNames {
+		fmt.Printf(
+			" - %s%s%s: %s\n",
+			console.Gold,
+			name,
+			console.Reset,
+			workspace.Commands[name],
+		)
+	}
+
+	fmt.Println()
 }

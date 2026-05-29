@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
@@ -18,16 +17,10 @@ func SetWorkspacePath(workspaceName string) {
 		return
 	}
 
-	index := -1
-
-	// Find target workspace
-	for i, workspace := range configData.Workspaces {
-
-		if strings.EqualFold(workspace.Name, workspaceName) {
-			index = i
-			break
-		}
-	}
+	index := findWorkspaceIndex(
+		configData.Workspaces,
+		workspaceName,
+	)
 
 	if index == -1 {
 		console.PrintError("Workspace not found.")

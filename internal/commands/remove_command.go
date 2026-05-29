@@ -2,7 +2,6 @@ package commands
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"sort"
@@ -10,25 +9,15 @@ import (
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
-	"github.com/modexusdev/workspace/internal/models"
 )
 
 func RemoveWorkspaceCommand(workspaceName string) {
 
-	data, err := os.ReadFile(config.ConfigPath)
+	configData, err := config.LoadConfig()
 	if err != nil {
-		console.PrintError("Error reading config.")
+		console.PrintError("Error loading config.")
 		return
 	}
-
-	var configData models.Config
-
-	err = json.Unmarshal(data, &configData)
-	if err != nil {
-		console.PrintError("Error parsing config.")
-		return
-	}
-
 	index := -1
 
 	// Find target workspace
@@ -67,15 +56,9 @@ func RemoveWorkspaceCommand(workspaceName string) {
 
 	delete(configData.Workspaces[index].Commands, commandName)
 
-	updatedData, err := json.MarshalIndent(configData, "", "  ")
+	err = config.SaveConfig(configData)
 	if err != nil {
-		console.PrintError("Error creating JSON.")
-		return
-	}
-
-	err = os.WriteFile(config.ConfigPath, updatedData, 0644)
-	if err != nil {
-		console.PrintError("Error writing config.")
+		console.PrintError("Error saving config.")
 		return
 	}
 

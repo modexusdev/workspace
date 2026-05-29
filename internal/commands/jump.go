@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"encoding/json"
 	"os"
 	"os/exec"
 	"strings"
@@ -9,21 +8,12 @@ import (
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
-	"github.com/modexusdev/workspace/internal/models"
 )
 
 func JumpToPath(workspaceName string) {
-	data, err := os.ReadFile(config.ConfigPath)
+	configData, err := config.LoadConfig()
 	if err != nil {
-		console.PrintError("Error reading config.")
-		return
-	}
-
-	var configData models.Config
-
-	err = json.Unmarshal(data, &configData)
-	if err != nil {
-		console.PrintError("Error parsing config.")
+		console.PrintError("Error loading config.")
 		return
 	}
 

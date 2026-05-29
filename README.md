@@ -1,5 +1,5 @@
 # WORKSPACE CLI
-
+// TODO check Version
 ```text
 WORKSPACE CLI v1.0.2
 project manager & command runner
@@ -62,7 +62,7 @@ mv workspace ~/go/bin/
 Option 2 — Install with Go
 
 ```bash
-go install github.com/modexusdev/workspace/cmd/workspace@latest
+go install github.com/modexusdev/workspace@latest
 ```
 
 Make sure your Go `bin` directory is in your PATH:

@@ -2,28 +2,18 @@ package commands
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/modexusdev/workspace/internal/config"
 	"github.com/modexusdev/workspace/internal/console"
-	"github.com/modexusdev/workspace/internal/models"
 )
 
 func EditWorkspaceCommand(workspaceName string) {
-	data, err := os.ReadFile(config.ConfigPath)
+	configData, err := config.LoadConfig()
 	if err != nil {
-		console.PrintError("Error reading config.")
-		return
-	}
-
-	var configData models.Config
-
-	err = json.Unmarshal(data, &configData)
-	if err != nil {
-		console.PrintError("Error parsing config.")
+		console.PrintError("Error loading config.")
 		return
 	}
 
@@ -72,15 +62,9 @@ func EditWorkspaceCommand(workspaceName string) {
 
 	configData.Workspaces[index].Commands[newCommandName] = resolvedCommand
 
-	updatedData, err := json.MarshalIndent(configData, "", "  ")
+	err = config.SaveConfig(configData)
 	if err != nil {
-		console.PrintError("Error creating JSON.")
-		return
-	}
-
-	err = os.WriteFile(config.ConfigPath, updatedData, 0644)
-	if err != nil {
-		console.PrintError("Error writing config.")
+		console.PrintError("Error saving config.")
 		return
 	}
 

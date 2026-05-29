@@ -1,7 +1,7 @@
 # WORKSPACE CLI
-// TODO check Version
+
 ```text
-WORKSPACE CLI v1.0.2
+WORKSPACE CLI v1.0.3
 project manager & command runner
 ────────────────────────────────────
 ```

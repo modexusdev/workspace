@@ -17,7 +17,10 @@ func AddWorkspaceCommand(workspaceName string) {
 	}
 
 	index := findWorkspaceIndex(configData.Workspaces, workspaceName)
-	// Find target workspace
+	if index == -1 {
+		console.PrintError("Workspace not found.")
+		return
+	}
 
 	reader := bufio.NewReader(os.Stdin)
 

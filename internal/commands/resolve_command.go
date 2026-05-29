@@ -178,11 +178,14 @@ func parseAliasLine(line string) (string, string, bool) {
 
 	line = strings.TrimSpace(line)
 
+	if !strings.HasPrefix(line, "alias ") {
+		return "", "", false
+	}
+
 	line = strings.TrimPrefix(line, "alias ")
 	line = strings.TrimSpace(line)
 
 	parts := strings.SplitN(line, "=", 2)
-
 	if len(parts) != 2 {
 		return "", "", false
 	}
@@ -190,9 +193,22 @@ func parseAliasLine(line string) (string, string, bool) {
 	name := strings.TrimSpace(parts[0])
 	value := strings.TrimSpace(parts[1])
 
-	value = strings.Trim(value, `"'`)
-
 	if name == "" || value == "" {
+		return "", "", false
+	}
+
+	if len(value) >= 2 {
+		first := value[0]
+		last := value[len(value)-1]
+
+		if (first == '\'' && last == '\'') || (first == '"' && last == '"') {
+			value = value[1 : len(value)-1]
+		}
+	}
+
+	value = strings.TrimSpace(value)
+
+	if value == "" {
 		return "", "", false
 	}
 

@@ -34,6 +34,11 @@ func RemoveWorkspace(workspaceName string) {
 		return
 	}
 
+	if !confirm("Are you sure you want to remove workspace '" + workspaceName + "'?") {
+		console.PrintError("Remove cancelled.")
+		return
+	}
+
 	configData.Workspaces = updatedWorkspaces
 
 	err = config.SaveConfig(configData)
@@ -59,7 +64,7 @@ func RemoveAllWorkspaces() {
 	}
 
 	// Ask before deleting all saved workspace entries
-	if !confirmRemoveAll() {
+	if !confirm("Are you sure you want to remove all saved workspaces?") {
 		console.PrintError("Remove all cancelled.")
 		return
 	}

@@ -7,6 +7,7 @@ project manager & command runner
 ```
 
 ![Go](https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/modexusdev/workspace.svg)](https://pkg.go.dev/github.com/modexusdev/workspace)
 ![Platform](https://img.shields.io/badge/platform-linux-black)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -299,6 +300,16 @@ Shows:
 Useful for inspecting workspace configuration.
 
 ---
+
+## Rename workspace
+
+```bash
+workspace go-server rename
+```
+
+Example:
+
+New workspace name: backend-server
 
 ## Remove workspace
 

@@ -25,6 +25,7 @@ var workspaceCommands = map[string]WorkspaceCommand{
 	"edit-command":   commands.EditWorkspaceCommand,
 	"remove-command": commands.RemoveWorkspaceCommand,
 	"jump":           commands.JumpToPath,
+	"rename":         commands.RenameWorkspace,
 }
 
 func Handle(args []string) {

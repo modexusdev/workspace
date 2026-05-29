@@ -144,6 +144,32 @@ func confirmRemoveAll() bool {
 
 	return answer == "y" || answer == "yes"
 }
+
+func confirm(message string) bool {
+
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Printf(
+		"%s%s%s %s(y/N):%s ",
+		console.Gold,
+		message,
+		console.Reset,
+		console.Gray,
+		console.Reset,
+	)
+
+	answer, err := reader.ReadString('\n')
+	if err != nil {
+		console.PrintError("Error reading confirmation.")
+		return false
+	}
+
+	answer = strings.TrimSpace(answer)
+	answer = strings.ToLower(answer)
+
+	return answer == "y" || answer == "yes"
+}
+
 func findWorkspaceCommand(commands map[string]string, commandName string) (string, bool) {
 
 	// Find command case-insensitive
@@ -274,4 +300,47 @@ func findWorkspace(
 	}
 
 	return nil, false
+}
+func askNewWorkspaceName(
+	reader *bufio.Reader,
+	workspaces []models.Workspace,
+	oldWorkspaceName string,
+) string {
+
+	for {
+		console.PrintSuccess("New workspace name: ")
+
+		name, _ := reader.ReadString('\n')
+		name = strings.TrimSpace(name)
+
+		if name == "" {
+			console.PrintError("Workspace name is required.")
+			continue
+		}
+
+		if strings.Contains(name, " ") {
+			console.PrintError("Workspace name cannot contain spaces.")
+			continue
+		}
+
+		nameAlreadyExists := false
+
+		for _, workspace := range workspaces {
+			if strings.EqualFold(workspace.Name, oldWorkspaceName) {
+				continue
+			}
+
+			if strings.EqualFold(workspace.Name, name) {
+				nameAlreadyExists = true
+				break
+			}
+		}
+
+		if nameAlreadyExists {
+			console.PrintError("Workspace name already exists.")
+			continue
+		}
+
+		return name
+	}
 }
